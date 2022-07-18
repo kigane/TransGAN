@@ -144,6 +144,12 @@ def main_worker(gpu, ngpus_per_node, args):
             dis_net = torch.nn.parallel.DistributedDataParallel(dis_net)
     elif args.gpu is not None:
         torch.cuda.set_device(args.gpu)
+        gen_net = eval('models_search.'+args.gen_model+'.Generator')(args=args)
+        dis_net = eval('models_search.'+args.dis_model +
+                       '.Discriminator')(args=args)
+
+        gen_net.apply(weights_init)
+        dis_net.apply(weights_init)
         gen_net.cuda(args.gpu)
         dis_net.cuda(args.gpu)
     else:
