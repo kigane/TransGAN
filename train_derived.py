@@ -1,27 +1,29 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
+
+import os
+import random
+from copy import deepcopy
+
+import numpy as np
+import torch
+import torch.distributed as dist
+import torch.multiprocessing as mp
+import torch.nn as nn
+import torch.utils.data.distributed
+from tensorboardX import SummaryWriter
+from tqdm import tqdm
 
 import cfg
-import models_search
 import datasets
-from functions import train, validate, save_samples, LinearLrDecay, load_params, copy_params, cur_stages
-from utils.utils import set_log_dir, save_checkpoint, create_logger
+import models_search
+from adamw import AdamW
+from functions import (LinearLrDecay, copy_params, cur_stages, load_params,
+                       save_samples, train, validate)
+from utils.utils import create_logger, save_checkpoint, set_log_dir
+
 # from utils.inception_score import _init_inception
 # from utils.fid_score import create_inception_graph, check_or_download_inception
 
-import torch
-import torch.multiprocessing as mp
-import torch.distributed as dist
-import torch.utils.data.distributed
-import os
-import numpy as np
-import torch.nn as nn
-from tensorboardX import SummaryWriter
-from tqdm import tqdm
-from copy import deepcopy
-from adamw import AdamW
-import random 
 
 # torch.backends.cudnn.enabled = True
 # torch.backends.cudnn.benchmark = True
@@ -43,9 +45,9 @@ def main():
         torch.backends.cudnn.benchmark = False
         torch.backends.cudnn.deterministic = True
 
-    if args.gpu is not None:
-        warnings.warn('You have chosen a specific GPU. This will completely '
-                      'disable data parallelism.')
+    # if args.gpu is not None:
+    #     warnings.warn('You have chosen a specific GPU. This will completely '
+    #                   'disable data parallelism.')
 
     if args.dist_url == "env://" and args.world_size == -1:
         args.world_size = int(os.environ["WORLD_SIZE"])
