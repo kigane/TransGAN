@@ -118,7 +118,7 @@ def main_worker(gpu, args):
     args.max_epoch = args.max_epoch * args.n_critic
     dataset = datasets.ImageDataset(args, cur_img_size=8)
     train_loader = dataset.train
-    train_sampler = dataset.train_sampler
+    # train_sampler = dataset.train_sampler
     print(len(train_loader))
     if args.max_iter:
         args.max_epoch = np.ceil(args.max_iter * args.n_critic / len(train_loader))
@@ -179,7 +179,7 @@ def main_worker(gpu, args):
 
     # train loop
     for epoch in range(int(start_epoch), int(args.max_epoch)):
-        train_sampler.set_epoch(epoch)
+        # train_sampler.set_epoch(epoch)
         lr_schedulers = (gen_scheduler, dis_scheduler) if args.lr_decay else None
         cur_stage = cur_stages(epoch, args)
         print("cur_stage " + str(cur_stage)) if args.rank==0 else 0
