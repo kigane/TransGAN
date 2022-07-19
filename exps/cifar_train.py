@@ -13,11 +13,11 @@ def parse_args():
     return opt
 args = parse_args()
 
-# --multiprocessing-distributed \
 os.system(f"CUDA_VISIBLE_DEVICES=0 python train_derived.py \
 -gen_bs 64 \
 -dis_bs 32 \
 --dist-url 'tcp://localhost:14256' \
+--multiprocessing-distributed \
 --dist-backend 'nccl' \
 --world-size 1 \
 --rank {args.rank} \
