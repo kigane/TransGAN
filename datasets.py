@@ -33,7 +33,7 @@ class ImageDataset(object):
             # self.train_sampler = train_sampler
             self.train = torch.utils.data.DataLoader(
                 train_dataset,
-                batch_size=args.dis_batch_size, shuffle=(train_sampler is None),
+                batch_size=args.dis_batch_size, shuffle=True,
                 num_workers=args.num_workers, pin_memory=True)
 
             self.valid = torch.utils.data.DataLoader(
