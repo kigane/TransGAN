@@ -16,7 +16,7 @@ import torch.nn as nn
 from imageio import imsave
 from tqdm import tqdm
 
-from utils.inception_score import get_inception_score
+# from utils.inception_score import get_inception_score
 # from utils.fid_score import calculate_fid_given_paths
 from utils.torch_fid_score import get_fid
 from utils.utils import make_grid, save_image
@@ -270,9 +270,9 @@ def get_is(args, gen_net: nn.Module, num_img):
 
     # get inception score
     logger.info('calculate Inception score...')
-    mean, std = get_inception_score(img_list)
+    # mean, std = get_inception_score(img_list)
 
-    return mean
+    return -1
 
 
 def validate(args, fixed_z, fid_stat, epoch, gen_net: nn.Module, writer_dict, clean_dir=True):
