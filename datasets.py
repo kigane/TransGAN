@@ -8,7 +8,9 @@ import torch
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset
-from celeba import CelebA, FFHQ
+
+from celeba import FFHQ, CelebA
+
 
 class ImageDataset(object):
     def __init__(self, args, cur_img_size=None, bs=None):
@@ -26,18 +28,18 @@ class ImageDataset(object):
             train_dataset = Dt(root=args.data_path, train=True, transform=transform, download=True)
             val_dataset = Dt(root=args.data_path, train=False, transform=transform)
             
-            train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
-            val_sampler = torch.utils.data.distributed.DistributedSampler(val_dataset)
-            self.train_sampler = train_sampler
+            # train_sampler = torch.utils.data.distributed.DistributedSampler(train_dataset)
+            # val_sampler = torch.utils.data.distributed.DistributedSampler(val_dataset)
+            # self.train_sampler = train_sampler
             self.train = torch.utils.data.DataLoader(
                 train_dataset,
                 batch_size=args.dis_batch_size, shuffle=(train_sampler is None),
-                num_workers=args.num_workers, pin_memory=True, sampler=train_sampler)
+                num_workers=args.num_workers, pin_memory=True)
 
             self.valid = torch.utils.data.DataLoader(
                 val_dataset,
                 batch_size=args.dis_batch_size, shuffle=False,
-                num_workers=args.num_workers, pin_memory=True, sampler=val_sampler)
+                num_workers=args.num_workers, pin_memory=True)
 
             self.test = self.valid
         
