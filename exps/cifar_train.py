@@ -13,11 +13,11 @@ def parse_args():
     return opt
 args = parse_args()
 
-# --multiprocessing-distributed \
 os.system(f"python train_derived.py \
 -gen_bs 4 \
 -dis_bs 2 \
 --dist-url 'tcp://localhost:14256' \
+--multiprocessing-distributed \
 --dist-backend 'nccl' \
 --world-size 1 \
 --rank {args.rank} \
