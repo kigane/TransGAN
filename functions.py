@@ -9,16 +9,18 @@ import operator
 import os
 from copy import deepcopy
 
+import cv2
 import numpy as np
 import torch
 import torch.nn as nn
 from imageio import imsave
-from utils.utils import make_grid, save_image
 from tqdm import tqdm
-import cv2
 
+from utils.inception_score import get_inception_score
 # from utils.fid_score import calculate_fid_given_paths
 from utils.torch_fid_score import get_fid
+from utils.utils import make_grid, save_image
+
 # from utils.inception_score import get_inception_scorepython exps/dist1_new_church256.py --node 0022 --rank 0sample
 
 logger = logging.getLogger(__name__)
